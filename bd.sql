@@ -40,10 +40,9 @@ SELECT * FROM personas;
 CREATE TABLE credenciales (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
   usuario VARCHAR(100),
-  pass VARCHAR(100)
+  pass VARCHAR(100),
+  FOREIGN KEY(usuario) REFERENCES personas (email)
 );
-
-ALTER TABLE credenciales ADD FOREIGN KEY(usuario) REFERENCES personas(email);
 
 /* Inserto datos en la Tabla para realizar las pruebas */
 INSERT INTO credenciales(usuario, pass)
