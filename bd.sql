@@ -25,7 +25,7 @@ CREATE TABLE personas (
   dni VARCHAR(20) UNIQUE, /* Seteo DNI como unico */
   nombre VARCHAR(100),
   apellido VARCHAR(100),
-  email VARCHAR(100)
+  email VARCHAR(100) UNIQUE
 );
 
 /* Inserto datos en la Tabla para realizar las pruebas */
@@ -39,7 +39,7 @@ SELECT * FROM personas;
 /* Creo trabla para las pruebas */
 CREATE TABLE credenciales (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
-  usuario VARCHAR(100),
+  usuario VARCHAR(100) ,
   pass VARCHAR(100),
   FOREIGN KEY(usuario) REFERENCES personas (email)
 );
