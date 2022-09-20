@@ -82,8 +82,8 @@ router.route('/credencial/delete/:id').get(async(req,res)=>{
 
 router.route('/credencial/update').post(async(req,res)=>{
   result = await DBConnector.queryWithParams(
-    "UPDATE credenciales SET pass=? WHERE usuario=?" , 
-    [req.body.pass])
+    "UPDATE credenciales SET usuario=?, pass=? WHERE id=?" , 
+    [req.body.usuario, req.body.pass, req.body.id])
   res.json(toJson(result));
 });
 
