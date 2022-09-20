@@ -4,14 +4,14 @@
 CREATE DATABASE `webserverdb`;
 
 /* Creo el usuario para esta prueba publica */
-CREATE USER 'testwebserveruser' IDENTIFIED BY 'testwebserverpass';
+CREATE USER 'testwebserveruser6' IDENTIFIED BY 'testwebserverpass';
 
 /* Le concedo permisos para conectarse */
-GRANT USAGE ON *.* TO 'testwebserveruser'@localhost IDENTIFIED BY 'testwebserverpass';
+GRANT USAGE ON *.* TO 'testwebserveruser6'@localhost IDENTIFIED BY 'testwebserverpass';
 /* GRANT USAGE ON *.* TO 'testwebserveruser'@'%' IDENTIFIED BY 'testwebserverpass'; // Esto se usar en caso de que se requiera acceder fuera del localhost */
 
 /* Se le da acceso al usuario a la Base de Datos */
-GRANT ALL privileges ON `webserverdb`.* TO 'testwebserveruser'@localhost;
+GRANT ALL privileges ON `webserverdb`.* TO 'testwebserveruser6'@localhost;
 
 /* Aplico los cambios */
 FLUSH PRIVILEGES;
@@ -20,7 +20,7 @@ FLUSH PRIVILEGES;
 USE webserverdb;
 
 /* Creo trabla para las pruebas */
-CREATE TABLE persona (
+CREATE TABLE personas (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
   dni VARCHAR(20) UNIQUE, /* Seteo DNI como unico */
   nombre VARCHAR(100),
@@ -29,24 +29,24 @@ CREATE TABLE persona (
 );
 
 /* Inserto datos en la Tabla para realizar las pruebas */
-INSERT INTO usuarios(dni, nombre, apellido, email)
+INSERT INTO personas(dni, nombre, apellido, email)
   VALUES('39493125', 'Joaquin', 'Decima', 'joaquin.decima@gmail.com')
      ;
 
 /* Muestro los datos */
-SELECT * FROM usuarios;
+SELECT * FROM personas;
 
 /* Creo trabla para las pruebas */
 CREATE TABLE credenciales (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
   usuario VARCHAR(100),
-  constraseña VARCHAR(100),
+  pass VARCHAR(100)
 );
 
-ALTER TABLE credenciales ADD FOREIGN KEY(usuario) REFERENCES persona(email);
+ALTER TABLE credenciales ADD FOREIGN KEY(usuario) REFERENCES personas(email);
 
 /* Inserto datos en la Tabla para realizar las pruebas */
-INSERT INTO credenciales(nombre, descripcion)
+INSERT INTO credenciales(usuario, pass)
   VALUES('joaquin.decima@gmail.com', 'joaquin123')
      ;
 
