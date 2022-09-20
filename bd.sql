@@ -1,3 +1,5 @@
+
+
 /* Creo Base de Datos para el WebServer */
 CREATE DATABASE `webserverdb`;
 
@@ -18,7 +20,7 @@ FLUSH PRIVILEGES;
 USE webserverdb;
 
 /* Creo trabla para las pruebas */
-CREATE TABLE usuarios (
+CREATE TABLE persona (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
   dni VARCHAR(20) UNIQUE, /* Seteo DNI como unico */
   nombre VARCHAR(100),
@@ -35,18 +37,20 @@ INSERT INTO usuarios(dni, nombre, apellido, email)
 SELECT * FROM usuarios;
 
 /* Creo trabla para las pruebas */
-CREATE TABLE empleos (
+CREATE TABLE credenciales (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, /* ID auto incrementable seteado como primary key*/
-  nombre VARCHAR(100),
-  descripcion VARCHAR(100),
+  usuario VARCHAR(100),
+  constraseña VARCHAR(100),
 );
 
+ALTER TABLE credenciales ADD FOREIGN KEY(usuario) REFERENCES persona(email);
+
 /* Inserto datos en la Tabla para realizar las pruebas */
-INSERT INTO empleos(nombre, descripcion)
-  VALUES('Contador', 'Identificar y gestionar costos y gastos')
+INSERT INTO credenciales(nombre, descripcion)
+  VALUES('joaquin.decima@gmail.com', 'joaquin123')
      ;
 
 /* Muestro los datos */
-SELECT * FROM empleos;
+SELECT * FROM credenciales;
 
 
