@@ -2,7 +2,7 @@ const mariadb = require('mariadb');
 
 const config ={
   host: 'localhost',
-  user: 'testwebserveruser',
+  user: 'testwebserveruser8',
   password: 'testwebserverpass',
   database: 'webserverdb',
   connectionLimit: 5,

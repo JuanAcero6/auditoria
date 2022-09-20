@@ -2,6 +2,7 @@
 const DBConnector = require('./dbconnector.js');
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require("bcryptjs");
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -24,62 +25,65 @@ function toJson(data) {
 }
 
 //CRUD DE USUARIOS//
-router.route('/users').get(async(req,res)=>{
-  result = await DBConnector.query("SELECT * FROM usuarios")
+router.route('/personas').get(async(req,res)=>{
+  result = await DBConnector.query("SELECT * FROM personas")
   res.json(toJson(result));
 });
 
-router.route('/user/:id').get(async(req,res)=>{
-  result = await DBConnector.queryWithParams("SELECT * FROM usuarios WHERE id=?", [req.params.id])
+router.route('/persona/:id').get(async(req,res)=>{
+  result = await DBConnector.queryWithParams("SELECT * FROM personas WHERE id=?", [req.params.id])
   res.json(toJson(result));
 });
 
-router.route('/user/add').post(async(req,res)=>{
+router.route('/persona/add').post(async(req,res)=>{
   result = await DBConnector.queryWithParams(
-    "INSERT INTO usuarios(dni, nombre, apellido, email) VALUES(?,?,?,?)", 
+    "INSERT INTO personas(dni, nombre, apellido, email) VALUES(?,?,?,?)", 
     [req.body.dni, req.body.nombre, req.body.apellido, req.body.email])
   res.json(toJson(result));
 });
 
-router.route('/user/delete/:id').get(async(req,res)=>{
-  result = await DBConnector.queryWithParams("DELETE FROM usuarios WHERE id=?", [req.params.id])
+router.route('/persona/delete/:id').get(async(req,res)=>{
+  result = await DBConnector.queryWithParams("DELETE FROM personas WHERE id=?", [req.params.id])
   res.json(toJson(result));
 });
 
-router.route('/user/update').post(async(req,res)=>{
+router.route('/persona/update').post(async(req,res)=>{
   result = await DBConnector.queryWithParams(
-    "UPDATE usuarios SET nombre=?, apellido=?, email=? WHERE id=?" , 
+    "UPDATE personas SET nombre=?, apellido=?, email=? WHERE id=?" , 
     [req.body.nombre, req.body.apellido, req.body.email, req.body.id])
   res.json(toJson(result));
 });
-///CRUD DE EMPLEOS//
+///CRUD DE CREDENCIALES//
 
-router.route('/empleos').get(async(req,res)=>{
-  result = await DBConnector.query("SELECT * FROM empleos")
+router.route('/credenciales').get(async(req,res)=>{
+  result = await DBConnector.query("SELECT * FROM credenciales")
   res.json(toJson(result));
 });
 
-router.route('/empleo/:id').get(async(req,res)=>{
-  result = await DBConnector.queryWithParams("SELECT * FROM empleos WHERE id=?", [req.params.id])
+router.route('/credenciales/:id').get(async(req,res)=>{
+  result = await DBConnector.queryWithParams("SELECT * FROM credenciales WHERE id=?", [req.params.id])
   res.json(toJson(result));
 });
 
-router.route('/empleo/add').post(async(req,res)=>{
+router.route('/credencial/add').post(async(req,res)=>{
+  const rondasDeSal = 10;
+  const palabraSecretaEncriptada = await bcrypt.hash(req.body.pass, rondasDeSal);
+
   result = await DBConnector.queryWithParams(
-    "INSERT INTO empleos(nombre, descripcion) VALUES(?,?)", 
-    [req.body.nombre, req.body.descripcion])
+    "INSERT INTO credenciales(usuario, pass) VALUES(?,?)", 
+    [req.body.usuario,  palabraSecretaEncriptada ])
   res.json(toJson(result));
 });
 
-router.route('/empleo/delete/:id').get(async(req,res)=>{
-  result = await DBConnector.queryWithParams("DELETE FROM empleos WHERE id=?", [req.params.id])
+router.route('/credencial/delete/:id').get(async(req,res)=>{
+  result = await DBConnector.queryWithParams("DELETE FROM credenciales WHERE id=?", [req.params.id])
   res.json(toJson(result));
 });
 
-router.route('/empleo/update').post(async(req,res)=>{
+router.route('/credencial/update').post(async(req,res)=>{
   result = await DBConnector.queryWithParams(
-    "UPDATE empleos SET nombre=?, descripcion=? WHERE id=?" , 
-    [req.body.nombre, req.body.descripcion, req.body.id])
+    "UPDATE credenciales SET pass=? WHERE usuario=?" , 
+    [req.body.pass])
   res.json(toJson(result));
 });
 
